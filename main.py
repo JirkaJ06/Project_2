@@ -7,8 +7,6 @@ email: janku.jirka@gmail.com
 
 import random
 
-separator = '-' * 40
-
 def generuj_cislo(delka):
     """Vygeneruje náhodné 4místné číslo s unikátními číslicemi. Číslo nesmí začínat nulou."""
     cislo = ""
@@ -32,6 +30,7 @@ def vypis(text, separator="-" * 40):
     """
     Vypíše text s oddělovačem pro lepší přehlednost.
     """
+    separator = '-' * 40    
     print(f"{text}\n{separator}")
 
 def hraj_hru():
