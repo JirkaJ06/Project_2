@@ -38,8 +38,6 @@ def hraj_hru():
     tajne_cislo = generuj_cislo(4)  # Vygeneruje tajné číslo.
     pokusy = 0  # Počet pokusů.
 
-    vypis(f"tajne_cislo: {tajne_cislo}")  # Pro účely testování, aby bylo vidět tajné číslo.
-
     vypis("Hi there!")
     vypis("I've generated a random 4 digit number for you. \nLet's play a bulls and cows game.")
     vypis("Enter a number:")
