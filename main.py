@@ -9,11 +9,18 @@ import random
 
 separator = '-' * 40
 
-def generuj_cislo():
-    """Vygeneruje náhodné 4místné číslo s unikátními číslicemi."""
-    cislice = list(range(10))  # Vytvoří seznam číslic od 0 do 9.
-    random.shuffle(cislice)  # Náhodně promíchá pořadí číslic.
-    return ''.join(map(str, cislice[:4]))  # Vezme první 4 číslice, převede je na řetězec a spojí je.
+def generuj_cislo(delka):
+    """Vygeneruje náhodné 4místné číslo s unikátními číslicemi. Číslo nesmí začínat nulou."""
+    cislo = ""
+    pouzite = set()
+    while len(cislo) < delka:
+        cifra = str(random.randint(0, 9))
+        if len(cislo) == 0 and cifra == "0":
+            continue  # první číslice nesmí být nula
+        if cifra not in pouzite:
+            cislo += cifra
+            pouzite.add(cifra)
+    return cislo
 
 def ziskej_byky_a_kravy(tajne, tip):
     """Spočítá počet býků a krav."""
@@ -21,25 +28,28 @@ def ziskej_byky_a_kravy(tajne, tip):
     kravy = sum(1 for g in tip if g in tajne) - byci  # Počet číslic na špatné pozici.
     return byci, kravy
 
+def vypis(text, separator="-" * 40):
+    """
+    Vypíše text s oddělovačem pro lepší přehlednost.
+    """
+    print(f"{text}\n{separator}")
+
 def hraj_hru():
     """Hlavní logika hry."""
-    tajne_cislo = generuj_cislo()  # Vygeneruje tajné číslo.
+    tajne_cislo = generuj_cislo(4)  # Vygeneruje tajné číslo.
     pokusy = 0  # Počet pokusů.
 
-    print("Hi there!")
-    print(separator)
-    print("I've generated a random 4 digit number for you.")
-    print("Let's play a bulls and cows game.")
-    print(separator)
-    print("Enter a number:")
-    print(separator)
+    vypis(f"tajne_cislo: {tajne_cislo}")  # Pro účely testování, aby bylo vidět tajné číslo.
+
+    vypis("Hi there!")
+    vypis("I've generated a random 4 digit number for you. \nLet's play a bulls and cows game.")
+    vypis("Enter a number:")
 
     while True:
         tip = input()
         # Ověření vstupu
         if len(tip) != 4 or not tip.isdigit() or len(set(tip)) != 4 or tip[0] == '0':
-            print("Invalid input. Please enter a 4-digit number with unique digits and not starting with zero.")
-            print(separator)
+            vypis("Invalid input. Please enter a 4-digit number with unique digits and not starting with zero.")
             continue
 
         pokusy += 1  # Zvýší počet pokusů.
@@ -49,14 +59,11 @@ def hraj_hru():
         text_byci = "bull" if byci == 1 else "bulls"
         text_kravy = "cow" if kravy == 1 else "cows"
 
-        print(f"{byci} {text_byci}, {kravy} {text_kravy}")
-        print(separator)
+        vypis(f"{byci} {text_byci}, {kravy} {text_kravy}")
 
         if byci == 4:  # Pokud hráč uhodne celé číslo.
-            print("Correct, you've guessed the right number {pokusy} pokusů.")
-            print(f"in {pokusy} guesses!")
-            print(separator)
-            print("That's amazing!")
+            vypis(f"Correct, you've guessed the right number in {pokusy} guesses!")
+            vypis("That's amazing!")
             break
 
 if __name__ == "__main__":
